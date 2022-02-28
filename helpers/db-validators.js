@@ -27,7 +27,7 @@ const existeUsuarioPorId = async(id) => {
 }
 
 // Validar categoria
-const existeCategoria = async(id)=> {
+const existeCategoria = async(id) => {
     const categoria = await Categoria.findById(id);
     if (!categoria) {
         throw new Error(`La categoria con id: ${ id } no existe`);
@@ -35,11 +35,21 @@ const existeCategoria = async(id)=> {
 }
 
 // Validar producto
-const existeProducto = async(id)=> {
+const existeProducto = async(id) => {
     const producto = await Producto.findById(id);
     if (!producto) {
         throw new Error(`El producto con id: ${ id } no existe`);
     }
+}
+
+// Validar coleccion
+const coleccionesPermitidas = (coleccion = '', colecciones = []) => {
+    const incluida = colecciones.includes( coleccion );
+    if (!incluida) {
+        throw new Error(`La coleccion ${ coleccion } no es permitida - ${ colecciones }`);
+    }
+
+    return true;
 }
 
 module.exports = {
@@ -47,5 +57,6 @@ module.exports = {
     emailExiste,
     existeUsuarioPorId,
     existeCategoria,
-    existeProducto
+    existeProducto,
+    coleccionesPermitidas
 }
